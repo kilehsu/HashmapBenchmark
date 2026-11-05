@@ -1,0 +1,8 @@
+CompileFlags:
+  CompilationDatabase: build
+---
+If:
+  PathMatch: (include|src)/.*
+CompileFlags:
+  Remove: [-std=*]
+  Add: [-std=c++20]
