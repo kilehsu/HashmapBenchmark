@@ -1,5 +1,5 @@
 #pragma once
-#include "SeparateChainingHashMap.hpp"
+#include "separate_chaining_hash_map.hpp"
 #include <cmath>
 #include <cstddef>
 #include <functional>

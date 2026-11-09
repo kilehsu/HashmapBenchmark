@@ -34,4 +34,4 @@ private:
     std::size_t hash(const K& key) const;
 };
 
-#include "SeparateChainingHashMap.tpp"
+#include "separate_chaining_hash_map.tpp"

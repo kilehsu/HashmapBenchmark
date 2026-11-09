@@ -20,18 +20,25 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googlebenchmark)
 
-add_executable(hashmap_bench src/main.cpp) 
+add_executable(main src/main.cpp) 
 
-target_include_directories(hashmap_bench PRIVATE include)
+target_include_directories(main PRIVATE include)
 
 target_link_libraries(
-    hashmap_bench
+    main
     PRIVATE benchmark::benchmark_main
 )
 
 enable_testing()
 
-add_executable(hashmap_tests src/tests/hashmap_tests.cpp)
+add_executable(hashmap_tests src/tests/separate_chaining_hash_map_tests.cpp)
 target_include_directories(hashmap_tests PRIVATE include)
 
 add_test(NAME hashmap_tests COMMAND hashmap_tests)
+
+add_executable(hashmap_benchmark src/benchmark/benchmark.cpp)
+target_include_directories(hashmap_benchmark PRIVATE include)
+target_link_libraries(
+    hashmap_benchmark
+    PRIVATE benchmark::benchmark_main
+)

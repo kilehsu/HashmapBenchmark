@@ -1,4 +1,4 @@
-#include "hashmap/SeparateChainingHashMap.hpp"
+#include "hashmap/separate_chaining_hash_map.hpp"
 
 #include <cassert>
 #include <iostream>
