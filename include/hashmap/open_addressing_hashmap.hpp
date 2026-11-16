@@ -25,9 +25,15 @@ private:
         ProbeResult(bool, std::optional<std::size_t>);
     };
 
-    ProbeResult probe(const K&) const;
+    ProbeResult probe(const K&, const std::vector<Slot>&) const;
 
-    std::size_t hash(const K&) const;
+    ProbeResult probe_get(const K&, const std::vector<Slot>&) const;
+
+    std::size_t hash(const K&, const std::vector<Slot>&) const;
+
+    float get_load_factor(std::size_t) const;
+
+    void rehash_table(std::size_t);
 
     std::vector<Slot> table_;
     std::size_t size_;
@@ -35,6 +41,12 @@ private:
 
 public:
     OpenAddressingHashMap(std::size_t, float);
+
+    std::optional<V> get(const K&) const;
+
+    void insert(const K&, const V&);
+
+    void remove(const K&);
 };
 
 #include "open_addressing_hashmap.tpp"

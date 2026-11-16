@@ -36,6 +36,10 @@ target_include_directories(hashmap_tests PRIVATE include)
 
 add_test(NAME hashmap_tests COMMAND hashmap_tests)
 
+add_executable(open_addressing_tests src/tests/open_addressing_hash_map_tests.cpp)
+target_include_directories(open_addressing_tests PRIVATE include)
+add_test(NAME open_addressing_tests COMMAND open_addressing_tests)
+
 add_executable(hashmap_benchmark src/benchmark/benchmark.cpp)
 target_include_directories(hashmap_benchmark PRIVATE include)
 target_link_libraries(

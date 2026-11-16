@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <benchmark/benchmark.h>
+#include <hashmap/open_addressing_hashmap.hpp>
 #include <hashmap/separate_chaining_hash_map.hpp>
 #include <random>
 #include <utility>
@@ -68,6 +69,33 @@ static void BM_get(benchmark::State& state) {
     state.SetItemsProcessed(state.iterations() * 1024);
 }
 
+static void BM_get_oa(benchmark::State& state) {
+    std::mt19937_64 gen(42);
+    std::uniform_int_distribution<int> dis(1, 10000);
+
+    std::vector<std::pair<int, int>> inputs;
+    inputs.reserve(1024);
+    OpenAddressingHashMap<int, int> hashmap(1024, 0.25f);
+    auto* map_ptr = &hashmap;
+
+    for (int i = 0; i < 1024; ++i) {
+        const int key = dis(gen);
+        const int value = dis(gen);
+        inputs.emplace_back(key, value);
+        hashmap.insert(key, value);
+    }
+
+    std::shuffle(inputs.begin(), inputs.end(), gen);
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(map_ptr);
+        for (const auto& [key, _] : inputs) {
+            auto res = hashmap.get(key);
+            benchmark::DoNotOptimize(res);
+        }
+    }
+    state.SetItemsProcessed(state.iterations() * 1024);
+}
+
 // BENCHMARK(BM_insert)
 //     ->ArgNames({"capacity", "max_load_percent"})
 //     ->Args({8, 25})
@@ -78,5 +106,6 @@ static void BM_get(benchmark::State& state) {
 //     ->Args({2048, 100});
 
 BENCHMARK(BM_get);
+BENCHMARK(BM_get_oa);
 
 BENCHMARK_MAIN();
